@@ -28,17 +28,17 @@
 
     <v-data-table
       :headers="headers"
-      :items="users" 
-      
-      :search="search" 
+      :items="users"
+
+      :search="search"
       :footer-props="{
-      showFirstLastPage: true,
-      firstIcon: 'mdi-arrow-collapse-left ',
-      lastIcon: 'mdi-arrow-collapse-right ',
-      prevIcon: 'mdi-minus',
-      nextIcon: 'mdi-plus'
-    }"
-      >
+        showFirstLastPage: true,
+        firstIcon: 'mdi-arrow-collapse-left ',
+        lastIcon: 'mdi-arrow-collapse-right ',
+        prevIcon: 'mdi-minus',
+        nextIcon: 'mdi-plus'
+      }"
+    >
 
 
       <template v-slot:top>
@@ -135,7 +135,7 @@
                   </v-col>
 
 
-                  
+
 
 
                 </v-row>
@@ -180,38 +180,39 @@
       </v-toolbar>
     </template>
 
-
-    <template v-slot:actions="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
-
-
-
-
-        <template v-slot:[`item.email`]="{item}">
-          {{item.email || '-'}}
-        </template>
-        <template v-slot:[`item.tel`]="{item}">
-          {{item.tel || '-'}}
-        </template>
-        <template v-slot:[`item.no`]="{index}">
-          {{index+1}}
-        </template>
+      <!-- ชื่อ slot เขียนไม่ถูกครับ ใน document คือ item.<name> -->
+      <!-- ตัวอย่าง v-slot:[`item.ชื่อ value`]  อันเดิมที่ใช้เป็น v-slot:actions -->
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="editItem(item)"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          small
+          @click="deleteItem(item)"
+        >
+          mdi-delete
+        </v-icon>
+      </template>
 
 
-      
+
+
+      <template v-slot:[`item.email`]="{item}">
+        {{item.email || '-'}}
+      </template>
+      <template v-slot:[`item.tel`]="{item}">
+        {{item.tel || '-'}}
+      </template>
+      <template v-slot:[`item.no`]="{index}">
+        {{index+1}}
+      </template>
+
+
+
     <template v-slot:no-data>
       <v-btn
         color="primary"
@@ -220,7 +221,7 @@
         Reset
       </v-btn>
     </template>
-      
+
 
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
@@ -235,7 +236,7 @@
         </v-dialog>
 
 
-      
+
 
     </v-data-table>
       <!-- <thead>
@@ -256,18 +257,19 @@
           <td>{{user.Telephone || '-'}}</td>
         </tr>
       </tbody> -->
-     
-       
-        
-    
+
+
+
+
     </v-card>
       {{auth.firstName}}
       {{auth.lastName}}
-    
+      <v-icon> mdi-account </v-icon>
+
   </div>
-  
-    
-    
+
+
+
 </template>
 
 <script>
@@ -276,13 +278,56 @@ import {mapActions,mapGetters} from 'vuex'
 import axios from 'axios'
 
 export default {
-  
+
   name: 'HomeView',
   data () {
     return {
       dialog: false,
       dialogDelete: false,
-      users: [],
+      users: [
+        {
+          firstName: 'AA',
+          lastName: 'AA',
+          email: 'BB',
+          tel: '090'
+        },
+        {
+          firstName: 'AA',
+          lastName: 'AA',
+          email: 'BB',
+          tel: '090'
+        },
+        {
+          firstName: 'AA',
+          lastName: 'AA',
+          email: 'BB',
+          tel: '090'
+        },
+        {
+          firstName: 'AA',
+          lastName: 'AA',
+          email: 'BB',
+          tel: '090'
+        },
+        {
+          firstName: 'AA',
+          lastName: 'AA',
+          email: 'BB',
+          tel: '090'
+        },
+        {
+          firstName: 'AA',
+          lastName: 'AA',
+          email: 'BB',
+          tel: '090'
+        },
+        {
+          firstName: 'AA',
+          lastName: 'AA',
+          email: 'BB',
+          tel: '090'
+        }
+      ],
       search: '',
       headers: [
         {
@@ -305,7 +350,11 @@ export default {
           text: "Telephone",
           value: "tel"
         },
-        { text: 'Actions', value: 'actions', sortable: false },
+        {
+          text: 'Actions',
+          value: 'actions',
+          sortable: false
+        },
       ],
       editedIndex: -1,
       editedItem: {
@@ -329,10 +378,10 @@ export default {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
   },
-      
-  
+
+
   mounted () {
-    this.loadUserData()
+    // this.loadUserData()
   },
   watch: {
       dialog (val) {
