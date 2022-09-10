@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store'
+// import store from '@/store'
 
 
 Vue.use(VueRouter)
@@ -36,24 +36,24 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to,from,next) => {
+// router.beforeEach((to,from,next) => {
 
-  console.log(to.name)
-  //console.log(store.getters.auth.accessToken)
-  console.log('AccessToken ที่อยากให้เห็น', store.getters['auth/auth'].accessToken)
-  if ((to.name !== 'Login' && to.name !== 'Register') && !store.getters['auth/auth'].accessToken ) {
-    
-    next({ name: 'Login' })
-  } 
-  if((to.name == 'Login' || to.name == 'Register')&& store.getters['auth/auth'].accessToken) {
-    next({ name: 'home' })
-  } 
-  
-  next()
-  
-  
+//   console.log(to.name)
+//   //console.log(store.getters.auth.accessToken)
+//   console.log('AccessToken ที่อยากให้เห็น', store.getters['auth/auth'].accessToken)
+//   if ((to.name !== 'Login' && to.name !== 'Register') && !store.getters['auth/auth'].accessToken ) {
 
-})
+//     next({ name: 'Login' })
+//   }
+//   if((to.name == 'Login' || to.name == 'Register')&& store.getters['auth/auth'].accessToken) {
+//     next({ name: 'home' })
+//   }
+
+//   next()
+
+
+
+// })
 
 
 export default router
