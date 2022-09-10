@@ -33,7 +33,7 @@
       :search="search" 
       :footer-props="{
       showFirstLastPage: true,
-      firstIcon: 'mdi-arrow-collapse-left ',
+      firstIcon: 'mdi-arrow-left ',
       lastIcon: 'mdi-arrow-collapse-right ',
       prevIcon: 'mdi-minus',
       nextIcon: 'mdi-plus'
@@ -181,7 +181,7 @@
     </template>
 
 
-    <template v-slot:actions="{ item }">
+    <template v-slot:[`item.actions`]="{item}">
       <v-icon
         small
         class="mr-2"
@@ -275,6 +275,7 @@
 import {mapActions,mapGetters} from 'vuex'
 import axios from 'axios'
 
+
 export default {
   
   name: 'HomeView',
@@ -343,7 +344,7 @@ export default {
       },
     },
 
-    methods: {
+  methods: {
     ...mapActions({
       setAuth:'auth/setAuth'
     }),
@@ -405,16 +406,47 @@ export default {
         })
       },
 
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.users[this.editedIndex], this.editedItem)
-        } else {
-          this.users.push(this.editedItem)
-        }
-        this.close()
+      async save () {
+        // if (this.editedIndex > -1) {
+        //   Object.assign(this.users[this.editedIndex], this.editedItem)
+
+        // } else {
+        //   this.users.push(this.editedItem)
+        // }
+        // try {
+        // const { data } = await axios.post('http://localhost:3000/user',{
+          
+        // // })
+       
+        try {
+          await axios.post('http://localhost:3000/user',{
+              firstName: this.editedItem.firstName,
+              lastName: this.editedItem.lastName,
+              email: this.editedItem.email,
+              tel: this.editedItem.tel
+
+          })
+              this.clearForm()
+              // this.$router.push({ path:'/'})
+              this.loadUserData()
+              alert('create success')
+            } catch (error) {
+                console.error('[ERROR] create data',error)
+            }
+        
+          this.close()
       },
+      clearForm () {
+        this.editItem = {
+          firstName: '',
+          lastName: '',
+          email: '',
+          tel: ''
+        }
+      }
   }
 }
+
 </script>
 
 <style scoped>
